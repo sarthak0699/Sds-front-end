@@ -12,37 +12,60 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import axios from 'axios'
 import { useEffect } from 'react';
-const getPathAndTime = (array)=>{
-  var data = []
 
-  array.forEach(s =>{
-    console.log(s)
-    var path =[]
-    var time =s.timestamps
-    
-    s.locations.forEach(s =>{
-      var temp = [].concat(s).reverse()
-      
-      path.push(temp)
-      
-    })
-    data.push({"path":path,"timestamps":time})
-  })
-  return data
-}
 
-var done = true
+// var done = true
 function App2() {
+
+  const getPathAndTime = (array)=>{
+    var data = []
+  
+    array.forEach(s =>{
+      console.log(s)
+      var path =[]
+      var time =s.timestamps
+      s.location.forEach(s =>{
+        var temp = [].concat(s).reverse()
+        
+        path.push(temp)
+        
+      })
+      data.push({"path":path,"timestamps":time})
+    })
+    return data
+  }
+
+
+
  var data = []
  const [trips,setTrips] = useState()
- var trajectoriesUrl = "http://localhost:9000/trajectories"
- 
+ var baseUrl = "http://localhost:9000"
 
- done && axios.get(trajectoriesUrl).then(val =>{
-  data = val.data
-  done = false
-  setTrips(getPathAndTime(data))
-})
+
+ useEffect(()=>{
+  // get trajectories
+
+  axios.get(baseUrl+"/trajectories").then(val =>{
+    data = val.data
+    console.log("data in trajectories - ", data)
+    setTrips(getPathAndTime(data))
+  })
+
+  //get knn results
+  axios.post(baseUrl+'/knn',{
+    "trajectory_id": 0,
+    "neighbors": 5
+  })
+  .then((response)=> {
+      console.log("knn result-");
+      console.log(response.data);
+    })
+    .catch((error)=> {
+      console.log("knn error-");
+      console.log(error);
+    });
+
+},[])
 
   var url1 = "localhost"
   var url2 = ""
@@ -56,6 +79,9 @@ function App2() {
     shininess: 32,
     specularColor: [60, 64, 70]
   };
+
+
+
 
    return (
     <>
