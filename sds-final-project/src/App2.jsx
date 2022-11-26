@@ -11,6 +11,7 @@ import Form from 'react-bootstrap/Form'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import axios from 'axios'
+import { useEffect } from 'react';
 const getPathAndTime = (array)=>{
   var data = []
 
@@ -30,16 +31,24 @@ const getPathAndTime = (array)=>{
   return data
 }
 
-
+var done = true
 function App2() {
+ var data = []
+ const [trips,setTrips] = useState()
+ var trajectoriesUrl = "http://localhost:9000/trajectories"
+ 
 
-  use
+ done && axios.get(trajectoriesUrl).then(val =>{
+  data = val.data
+  done = false
+  setTrips(getPathAndTime(data))
+})
 
-  const [data,setData] = useState(getPathAndTime(Trajectories) )
-  var trajectoriesUrl = "http://localhost:9000/trajectories"
   var url1 = "localhost"
   var url2 = ""
   var url3 = ""
+
+  
 
   const material = {
     ambient: 0.1,
@@ -86,7 +95,7 @@ function App2() {
     </Container>
     </div>
     <div>
-      <App3 data={data}/>
+      <App3 data={trips}/>
     </div>
     </div>
     

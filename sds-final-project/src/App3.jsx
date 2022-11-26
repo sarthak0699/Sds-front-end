@@ -21,21 +21,11 @@ const INITIAL_VIEW_STATE = {
 };
 
 
-const TripComponent = () =>{
 
- return (<>
-      
- </>)
-}
 
 function App3(props) {
   const {data} = props
-  const onClick = info => {
-    if (info.object) {
-      // eslint-disable-next-line
-      alert(`${info.object.properties.name} (${info.object.properties.abbrev})`);
-    }
-  };
+  
 var time = 0
 var temp2 = []
 const ambientLight = new AmbientLight({
