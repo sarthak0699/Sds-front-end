@@ -136,6 +136,25 @@ const material = {
 const [b,setB] = useState(true)
 // var layers =[]
 const token = 'pk.eyJ1Ijoic2FydGhhazA2OTkiLCJhIjoiY2xhdXIzYzFvMDh4YTNvcHIxbXpldTE5ZyJ9.RdQqfdel4dmh1ghpo30yCw'
+function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
+const genColor=()=>{
+  var rgb = [];
+
+  for(var i = 0; i < 3; i++)
+      rgb.push(Math.floor(Math.random() * 255));
+
+  return rgb;
+}
+
+
 console.log("Check")
 console.log(data)
   return (
@@ -143,7 +162,7 @@ console.log(data)
         <DeckGL
           controller
           initialViewState = {INITIAL_VIEW_STATE}
-          layers = {[(new PathLayer({id:"1",data : data,getPath: d=> d.path,highlightColor: [0, 0, 128, 128],widthMinPixels: 4,getColor : [253, 128, 93]}))] } 
+          layers = {[(new PathLayer({id:"1",data : data,getPath: d=> d.path,highlightColor: [0, 0, 128, 128],widthMinPixels: 4,getColor :d => genColor()}))] } 
         >
           <StaticMap  mapStyle={'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json'} mapboxAccessToken={token}/>
         </DeckGL>
