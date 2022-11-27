@@ -23,7 +23,7 @@ import SR from './SR';
 function App2() {
   const [ind,setInd] = useState(0)
   const [trips,setTrips] = useState([{path:[],timestamps:[]}])
-  var formValues = {lonMin:"",lonMax:"",timeMin:"",timeMax:"",latMin:"",latMax:"",trajectory_id:"",neighbors:""}
+  var formValues = {lonMin:"",lonMax:"",timeMin:"",timeMax:"",latMin:"",latMax:"",trajectory_id:0,neighbors:0}
   
   const getPathAndTime = (array)=>{
     var data = []
@@ -40,6 +40,7 @@ function App2() {
       })
       data.push({"path":path,"timestamps":time})
     })
+    console.log("get path time data",data)
     return data
   }
 
@@ -178,6 +179,41 @@ const tripLayer0 = new PathLayer({
     })
   }
 
+  const onKnnClick=()=>{
+
+    var traj_ids=[]
+    console.log("KNN clicked---", formValues);
+    axios.post(baseUrl+'/knn',data={
+        "trajectory_id": parseInt(formValues.trajectory_id),
+        "neighbors": parseInt(formValues.neighbors)
+      })
+      .then((response)=> {
+          console.log("knn result-");
+          console.log(response.data);
+          response.data.forEach((s)=>
+          traj_ids.push(s.trajectory_id))
+
+          axios.get(baseUrl+"/trajectories").then(val =>{
+            data = val.data
+            // console.log("data in trajectories for knn - ", data)
+            // console.log("traj ids -",traj_ids)
+            var filteredData=data.filter((e)=>{
+              return traj_ids.includes(e.trajectory_id)
+            })
+            // console.log("filteresData -",filteredData)
+            setTrips(getPathAndTime(filteredData))})
+        })
+        .catch((error)=> {
+          console.log("knn error-");
+          console.log(error);
+        });
+
+    
+    }
+
+    
+  
+
    return (
     <>
     <div className='app2'>
@@ -191,7 +227,7 @@ const tripLayer0 = new PathLayer({
               <Nav.Link className='api'>Home</Nav.Link>
               <Nav.Link className='api' onClick={onSpatialClick}>Spatio-Temporal Query</Nav.Link>
               <Nav.Link className='api' onClick={onSpatialClick}>Spatial Query</Nav.Link>
-              <Nav.Link className='api'>Knn</Nav.Link>
+              <Nav.Link className='api' onClick={onKnnClick}>Knn</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
@@ -219,10 +255,10 @@ const tripLayer0 = new PathLayer({
           <Form.Control type ="number" placeholder = "Max Time" onChange={e => {e.preventDefault();formValues = {...formValues,timeMax:e.target.value}} }></Form.Control>
         </Col>  
         <Col>
-          <Form.Control type ="number" placeholder = "Trajectory ID" onChange={e => {formValues = {...formValues,trajectory_id:e.target.value}} } ></Form.Control>
+          <Form.Control type ="number" placeholder = "Trajectory ID" onChange={e => {e.preventDefault();formValues = {...formValues,trajectory_id:e.target.value}} } ></Form.Control>
         </Col>
         <Col>
-          <Form.Control type ="number" placeholder = "Neighbors" onChange={e => {formValues = {...formValues,neighbors:e.target.value}} } ></Form.Control>
+          <Form.Control type ="number" placeholder = "Neighbors" onChange={e => {e.preventDefault();formValues = {...formValues,neighbors:e.target.value}} } ></Form.Control>
         </Col>
       </Row>
     </Container>
