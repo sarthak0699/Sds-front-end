@@ -111,7 +111,6 @@ const tripLayer0 = new PathLayer({
 })
 
   var spatialUrl = "http://localhost:9000/get-spatial-range"
-  var spatialTempUrl = "http://localhost:9000/get-spatial-range"
   
   //get knn results
   
@@ -134,6 +133,16 @@ const tripLayer0 = new PathLayer({
   const onSpatialClick = () =>{
     console.log(formValues)
     axios.post(spatialUrl+"?filepath="+fileName,data = {...formValues}).then(res =>{
+      setTrips(getPathAndTime(res.data))
+
+    }).catch(e =>{
+      console.log("error on click->",e)
+    })
+  }
+
+  const onSpatialTempClick = () =>{
+    console.log(formValues)
+    axios.post(baseUrl+"/get-spatiotemp-range"+"?filepath="+fileName,data = {...formValues}).then(res =>{
       setTrips(getPathAndTime(res.data))
 
     }).catch(e =>{
@@ -188,8 +197,9 @@ const tripLayer0 = new PathLayer({
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
               <Nav.Link className='api'>Home</Nav.Link>
-              <Nav.Link className='api' onClick={onSpatialClick}>Spatio-Temporal Query</Nav.Link>
               <Nav.Link className='api' onClick={onSpatialClick}>Spatial Query</Nav.Link>
+              <Nav.Link className='api' onClick={onSpatialTempClick}>Spatio-Temporal Query</Nav.Link>
+              
               <Nav.Link className='api' onClick={onKnnClick}>Knn</Nav.Link>
               
             </Nav>
