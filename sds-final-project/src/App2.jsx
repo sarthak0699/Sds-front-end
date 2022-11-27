@@ -22,8 +22,8 @@ import SR from './SR';
 // var done = true
 function App2() {
   const [ind,setInd] = useState(0)
-  const [trips,setTrips] = useState({path:[],timestamps:[]})
-  const [formValues,setFormValues] = useState({lonMin:"",lonMax:"",timeMin:"",timeMax:"",latMin:"",latMax:"",trajectory_id:""})
+  const [trips,setTrips] = useState([{path:[],timestamps:[]}])
+  var formValues = {lonMin:"",lonMax:"",timeMin:"",timeMax:"",latMin:"",latMax:"",trajectory_id:"",neighbors:""}
   
   const getPathAndTime = (array)=>{
     var data = []
@@ -148,6 +148,8 @@ const tripLayer0 = new PathLayer({
 })
 
   var spatialUrl = "http://localhost:9000/get-spatial-range"
+  var spatialTempUrl = "http://localhost:9000/get-spatial-range"
+  
   //get knn results
   
 
@@ -167,8 +169,7 @@ const tripLayer0 = new PathLayer({
 
 
   const onSpatialClick = () =>{
-    setInd(1)
-    
+    console.log(formValues)
     axios.post(spatialUrl,data = {...formValues}).then(res =>{
       setTrips(getPathAndTime(res.data))
 
@@ -188,7 +189,7 @@ const tripLayer0 = new PathLayer({
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
               <Nav.Link className='api'>Home</Nav.Link>
-              <Nav.Link className='api'>Spatio-Temporal Query</Nav.Link>
+              <Nav.Link className='api' onClick={onSpatialClick}>Spatio-Temporal Query</Nav.Link>
               <Nav.Link className='api' onClick={onSpatialClick}>Spatial Query</Nav.Link>
               <Nav.Link className='api'>Knn</Nav.Link>
             </Nav>
@@ -219,6 +220,9 @@ const tripLayer0 = new PathLayer({
         </Col>  
         <Col>
           <Form.Control type ="number" placeholder = "Trajectory ID" onChange={e => {formValues = {...formValues,trajectory_id:e.target.value}} } ></Form.Control>
+        </Col>
+        <Col>
+          <Form.Control type ="number" placeholder = "Neighbors" onChange={e => {formValues = {...formValues,neighbors:e.target.value}} } ></Form.Control>
         </Col>
       </Row>
     </Container>

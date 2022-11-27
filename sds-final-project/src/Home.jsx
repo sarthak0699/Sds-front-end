@@ -4,7 +4,6 @@ import  {GeoJsonLayer, ArcLayer, MapView} from 'deck.gl';
 import DeckGL,{ TripsLayer,PathLayer } from 'deck.gl';
 // import {DeckGL} from 'deck.gl'
 import StaticMap from 'react-map-gl'
-
 import {AmbientLight, PointLight, LightingEffect} from '@deck.gl/core';
 import { Map,useControl} from 'react-map-gl'
 import Trajectories from './trajectories.json'
@@ -144,11 +143,9 @@ console.log(data)
         <DeckGL
           controller
           initialViewState = {INITIAL_VIEW_STATE}
-          layers = {[(new PathLayer({id:"1",data : data,getPath: d=> d.path,highlightColor: [0, 0, 128, 128],widthMinPixels: 2,}))] } 
+          layers = {[(new PathLayer({id:"1",data : data,getPath: d=> d.path,highlightColor: [0, 0, 128, 128],widthMinPixels: 4,getColor : [253, 128, 93]}))] } 
         >
           <StaticMap  mapStyle={'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json'} mapboxAccessToken={token}/>
-      
-          
         </DeckGL>
       </div>
     )
