@@ -128,6 +128,14 @@ const tripLayer0 = new PathLayer({
     specularColor: [60, 64, 70]
   };
 
+  const onHomeClick=()=>{
+    axios.get(baseUrl+"/trajectories?filepath="+fileName).then(val =>{
+      data = val.data
+      console.log("data in trajectories - ", data)
+      
+      setTrips(getPathAndTime(data))})
+  }
+
 
 
   const onSpatialClick = () =>{
@@ -196,7 +204,7 @@ const tripLayer0 = new PathLayer({
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link className='api'>Home</Nav.Link>
+              <Nav.Link className='api' onClick={onHomeClick}>Home</Nav.Link>
               <Nav.Link className='api' onClick={onSpatialClick}>Spatial Query</Nav.Link>
               <Nav.Link className='api' onClick={onSpatialTempClick}>Spatio-Temporal Query</Nav.Link>
               
