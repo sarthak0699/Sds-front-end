@@ -19,7 +19,6 @@
 import React from 'react';
 import DeckGL from '@deck.gl/react';
 import {LineLayer} from '@deck.gl/layers';
-import App3 from './App3'
 import App2 from './App2';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'mapbox-gl/dist/mapbox-gl.css';
