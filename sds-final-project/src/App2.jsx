@@ -26,7 +26,7 @@ function App2() {
   const [fileOptions,setFileOptions]= useState([]);
   const [ind,setInd] = useState(0)
   const [trips,setTrips] = useState([{path:[],timestamps:[]}])
-  var formValues = {lonMin:"",lonMax:"",timeMin:"",timeMax:"",latMin:"",latMax:"",trajectory_id:0,neighbors:0}
+  const [formValues,setFormValues] = useState({lonMin:"",lonMax:"",timeMin:"",timeMax:"",latMin:"",latMax:"",trajectory_id:0,neighbors:0});
   
   const getPathAndTime = (array)=>{
     var data = []
@@ -209,28 +209,28 @@ const tripLayer0 = new PathLayer({
     <Container className='inputs'>  
       <Row>
         <Col>
-          <Form.Control type ="number" placeholder = "Min Lat" onChange={e => {e.preventDefault();formValues = {...formValues,latMin:e.target.value}} }></Form.Control>
+          <Form.Control type ="number" placeholder = "Min Lat" onChange={e => {e.preventDefault();setFormValues({...formValues,latMin:e.target.value})} }></Form.Control>
         </Col>
         <Col>
-          <Form.Control type ="number" placeholder = "Max Lat" onChange={e => {e.preventDefault();formValues = {...formValues,latMax:e.target.value}} }></Form.Control>
+          <Form.Control type ="number" placeholder = "Max Lat" onChange={e => {e.preventDefault(); setFormValues({...formValues,latMax:e.target.value})} }></Form.Control>
         </Col>
         <Col>
-          <Form.Control type ="number" placeholder = "Min lon" onChange={e => {e.preventDefault();formValues = {...formValues,lonMin:e.target.value}} }></Form.Control>
+          <Form.Control type ="number" placeholder = "Min lon" onChange={e => {e.preventDefault();setFormValues({...formValues,lonMin:e.target.value})} }></Form.Control>
         </Col>
         <Col>
-          <Form.Control className='in' type ="number" placeholder = "Max lon" onChange={e => {e.preventDefault();formValues = {...formValues,lonMax:e.target.value}} }></Form.Control>
+          <Form.Control className='in' type ="number" placeholder = "Max lon" onChange={e => {e.preventDefault();setFormValues({...formValues,lonMax:e.target.value})} }></Form.Control>
         </Col>
         <Col>
-          <Form.Control type ="number" placeholder = "Min Time" onChange={e => {e.preventDefault();formValues = {...formValues,timeMin:e.target.value}} }></Form.Control>
+          <Form.Control type ="number" placeholder = "Min Time" onChange={e => {e.preventDefault();setFormValues({...formValues,timeMin:e.target.value})} }></Form.Control>
         </Col>
         <Col>
-          <Form.Control type ="number" placeholder = "Max Time" onChange={e => {e.preventDefault();formValues = {...formValues,timeMax:e.target.value}} }></Form.Control>
+          <Form.Control type ="number" placeholder = "Max Time" onChange={e => {e.preventDefault();setFormValues({...formValues,timeMax:e.target.value})} }></Form.Control>
         </Col>  
         <Col>
-          <Form.Control type ="number" placeholder = "Trajectory ID" onChange={e => {e.preventDefault();formValues = {...formValues,trajectory_id:e.target.value}} } ></Form.Control>
+          <Form.Control type ="number" placeholder = "Trajectory ID" onChange={e => {e.preventDefault();setFormValues({...formValues,trajectory_id:e.target.value})} } ></Form.Control>
         </Col>
         <Col>
-          <Form.Control type ="number" placeholder = "Neighbors" onChange={e => {e.preventDefault();formValues = {...formValues,neighbors:e.target.value}} } ></Form.Control>
+          <Form.Control type ="number" placeholder = "Neighbors" onChange={e => {e.preventDefault();setFormValues({...formValues,neighbors:e.target.value})} } ></Form.Control>
         </Col>
       </Row>
     </Container>
